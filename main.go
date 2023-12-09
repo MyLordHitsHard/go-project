@@ -10,8 +10,8 @@ import (
 func main() {
 	app := gofr.New()
 
-	s:= datastore.New()
-	h := handler.New()
+	s := datastore.New()
+	h := handler.New(s)
 
 	app.GET("'car-garage/{id}", h.GetByID)
 	app.POST("/car-garage", h.Create)

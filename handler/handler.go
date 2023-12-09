@@ -23,14 +23,14 @@ func (h handler) GetByID(ctx *gofr.Context) (interface{}, error) {
 	if id == "" {
 		return nil, errors.MissingParam{Param: []string{"id"}}
 	}
-	if _, err := validateID(id); err != nil {
+	if _, err := ValidateID(id); err != nil {
 		return nil, errors.InvalidParam{Param: []string{"id"}}
 	}
 
 	response, err := h.store.GetByID(ctx, id)
 
 	if err != nil {
-		return nil, erros.EntityNotFound{
+		return nil, errors.EntityNotFound{
 			Entity: "car",
 			ID:     id,
 		}
@@ -57,7 +57,7 @@ func (h handler) Update(ctx *gofr.Context) (interface{}, error) {
 	i := ctx.PathParam("id")
 
 	if i == "" {
-		return nil, erros.MissingParam{Param: []string{"id"}}
+		return nil, errors.MissingParam{Param: []string{"id"}}
 	}
 	id, err := ValidateID(i)
 	if err != nil {
@@ -72,7 +72,7 @@ func (h handler) Update(ctx *gofr.Context) (interface{}, error) {
 	carInfo.ID = id
 	response, err := h.store.Update(ctx, &carInfo)
 	if err != nil {
-		return nill, err
+		return nil, err
 	}
 	return response, nil
 }
@@ -81,7 +81,7 @@ func (h handler) Delete(ctx *gofr.Context) (interface{}, error) {
 	i := ctx.PathParam("id")
 
 	if i == "" {
-		return nil, erros.MissingParam{Param: []string{"id"}}
+		return nil, errors.MissingParam{Param: []string{"id"}}
 	}
 	id, err := ValidateID(i)
 	if err != nil {
@@ -95,7 +95,7 @@ func (h handler) Delete(ctx *gofr.Context) (interface{}, error) {
 	return "Deleted successfully", nil
 }
 
-func validateID(id string) (int, error) {
+func ValidateID(id string) (int, error) {
 	response, err := strconv.Atoi(id)
 	if err != nil {
 		return 0, err

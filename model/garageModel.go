@@ -1,13 +1,11 @@
 package model
 
-type Garage struct {
+type CarGarage struct {
 	ID            int    `'json:"id"`
-	license_plate string `'json:"license_plate"`
-	make          string `'json:"make"`
-	model         string `'json:"model"`
-	color         string `'json:"color"`
-	entry_time    string `'json:"entry_time"`
-	repair_status string `'json:"repair_status"`
-	log_id   int    `'json:"log_id"`
-	log_time string `'json:"log_time"`
+	License_plate string `'json:"license_plate"`
+	Make          string `'json:"make"`
+	Model         string `'json:"model"`
+	Color         string `'json:"color"`
+	Entry_time    string `'json:"entry_time"`
+	Repair_status string `'json:"repair_status"`
 }
