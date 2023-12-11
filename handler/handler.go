@@ -18,6 +18,14 @@ func New(c datastore.CarInfo) handler {
 	return handler{store: c}
 }
 
+
+func (h handler) GetAll(ctx *gofr.Context) (interface{}, error) {
+	response, err := h.store.GetAll(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return response, nil
+}
 func (h handler) GetByID(ctx *gofr.Context) (interface{}, error) {
 	id := ctx.PathParam("id")
 	if id == "" {
@@ -26,13 +34,34 @@ func (h handler) GetByID(ctx *gofr.Context) (interface{}, error) {
 	if _, err := ValidateID(id); err != nil {
 		return nil, errors.InvalidParam{Param: []string{"id"}}
 	}
-
-	response, err := h.store.GetByID(ctx, id)
+	// idInt, err := ValidateID(id);
+	// if err != nil {
+	// 	return nil, errors.InvalidParam{Param: []string{"id"}}
+	// }
+	idInt, err := strconv.Atoi(id)
+	response, err := h.store.GetByID(ctx, idInt)
 
 	if err != nil {
 		return nil, errors.EntityNotFound{
 			Entity: "car",
 			ID:     id,
+		}
+	}
+	return response, nil
+}
+
+func (h handler) GetByPlateNumber(ctx *gofr.Context) (interface{}, error) {
+	plateNumber:= ctx.PathParam("license_plate")
+	if plateNumber == "" {
+		return nil, errors.MissingParam{Param: []string{"license_plate"}}
+	}
+
+	response, err := h.store.GetByPlateNumber(ctx, plateNumber)
+
+	if err != nil {
+		return nil, errors.EntityNotFound{
+			Entity: "car",
+			ID:     plateNumber,
 		}
 	}
 	return response, nil
