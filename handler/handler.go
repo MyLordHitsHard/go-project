@@ -1,10 +1,10 @@
 package handler
 
 import (
-	"strconv"
-
+	"fmt"
 	"go-project/datastore"
 	"go-project/model"
+	"strconv"
 
 	"gofr.dev/pkg/errors"
 	"gofr.dev/pkg/gofr"
@@ -18,6 +18,14 @@ func New(c datastore.CarInfo) handler {
 	return handler{store: c}
 }
 
+type EntityAlreadyExists struct {
+	Entity string
+	ID     string
+}
+
+func (e EntityAlreadyExists) Error() string {
+	return fmt.Sprintf("%s with ID %s already exists", e.Entity, e.ID)
+}
 
 func (h handler) GetAll(ctx *gofr.Context) (interface{}, error) {
 	response, err := h.store.GetAll(ctx)
@@ -39,6 +47,9 @@ func (h handler) GetByID(ctx *gofr.Context) (interface{}, error) {
 	// 	return nil, errors.InvalidParam{Param: []string{"id"}}
 	// }
 	idInt, err := strconv.Atoi(id)
+	if err != nil {
+		return nil, errors.InvalidParam{Param: []string{"id"}}
+	}
 	response, err := h.store.GetByID(ctx, idInt)
 
 	if err != nil {
@@ -51,7 +62,7 @@ func (h handler) GetByID(ctx *gofr.Context) (interface{}, error) {
 }
 
 func (h handler) GetByPlateNumber(ctx *gofr.Context) (interface{}, error) {
-	plateNumber:= ctx.PathParam("license_plate")
+	plateNumber := ctx.PathParam("license_plate")
 	if plateNumber == "" {
 		return nil, errors.MissingParam{Param: []string{"license_plate"}}
 	}
@@ -70,12 +81,25 @@ func (h handler) GetByPlateNumber(ctx *gofr.Context) (interface{}, error) {
 func (h handler) Create(ctx *gofr.Context) (interface{}, error) {
 	var carInfo model.CarGarage
 
+	// if err != nil {
+	// 	return nil, err
+	// }
+
 	if err := ctx.Bind(&carInfo); err != nil {
 		ctx.Logger.Errorf("error in binding: %v", err)
 		return nil, errors.InvalidParam{Param: []string{"body"}}
 	}
 
-	response, err := h.store.Create(ctx, &carInfo)
+	response, err := h.store.GetByPlateNumber(ctx, carInfo.License_plate)
+
+	if response.License_plate == carInfo.License_plate {
+		return nil, EntityAlreadyExists{
+			Entity: "car",
+			ID:     carInfo.License_plate,
+		}
+	}
+
+	response, err = h.store.Create(ctx, &carInfo)
 	if err != nil {
 		return nil, err
 	}
@@ -83,22 +107,22 @@ func (h handler) Create(ctx *gofr.Context) (interface{}, error) {
 }
 
 func (h handler) Update(ctx *gofr.Context) (interface{}, error) {
-	i := ctx.PathParam("id")
+	plateNumber := ctx.PathParam("license_plate")
 
-	if i == "" {
-		return nil, errors.MissingParam{Param: []string{"id"}}
+	if plateNumber == "" {
+		return nil, errors.MissingParam{Param: []string{"license_plate"}}
 	}
-	id, err := ValidateID(i)
-	if err != nil {
-		return nil, errors.InvalidParam{Param: []string{"id"}}
-	}
+	// id, err := ValidateID(i)
+	// if err != nil {
+	// 	return nil, errors.InvalidParam{Param: []string{"id"}}
+	// }
 	var carInfo model.CarGarage
-	if err = ctx.Bind(&carInfo); err != nil {
+	if err := ctx.Bind(&carInfo); err != nil {
 		ctx.Logger.Errorf("error in binding: %v", err)
 		return nil, errors.InvalidParam{Param: []string{"body"}}
 	}
 
-	carInfo.ID = id
+	carInfo.License_plate = plateNumber
 	response, err := h.store.Update(ctx, &carInfo)
 	if err != nil {
 		return nil, err
@@ -107,17 +131,23 @@ func (h handler) Update(ctx *gofr.Context) (interface{}, error) {
 }
 
 func (h handler) Delete(ctx *gofr.Context) (interface{}, error) {
-	i := ctx.PathParam("id")
+	plateNumber := ctx.PathParam("license_plate")
 
-	if i == "" {
+	if plateNumber == "" {
 		return nil, errors.MissingParam{Param: []string{"id"}}
 	}
-	id, err := ValidateID(i)
-	if err != nil {
-		return nil, errors.InvalidParam{Param: []string{"id"}}
+	// id, err := ValidateID(i)
+	// if err != nil {
+	// 	return nil, errors.InvalidParam{Param: []string{"id"}}
+	// }
+	response, err := h.store.GetByPlateNumber(ctx, plateNumber)
+	if len(response.License_plate) == 0 && err != nil {
+		return nil, errors.EntityNotFound{
+			Entity: "car",
+			ID:     plateNumber,
+		}
 	}
-
-	if err := h.store.Delete(ctx, id); err != nil {
+	if err := h.store.Delete(ctx, plateNumber); err != nil {
 		return nil, err
 	}
 

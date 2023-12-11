@@ -57,7 +57,7 @@ func (c *carInfo) GetByPlateNumber(ctx *gofr.Context, plateNumber string) (*mode
 
 	err := ctx.DB().QueryRowContext(ctx, "SELECT * FROM carGarage WHERE license_plate=?", plateNumber).
 		Scan(&response.ID, &response.License_plate, &response.Make, &response.Model, &response.Color, &response.Entry_time, &response.Repair_status)
-	
+
 	switch err {
 	case sql.ErrNoRows:
 		return &model.CarGarage{}, errors.EntityNotFound{Entity: "car", ID: plateNumber}
@@ -112,6 +112,7 @@ func (c *carInfo) GetByPlateNumber(ctx *gofr.Context, plateNumber string) (*mode
 
 func (c *carInfo) Create(ctx *gofr.Context, carInfo *model.CarGarage) (*model.CarGarage, error) {
 	var response model.CarGarage
+
 	res, err := ctx.DB().ExecContext(ctx, "INSERT INTO carGarage (license_plate, make, model, color, entry_time, repair_status) VALUES(?, ?, ?, ?, ?, ?)", carInfo.License_plate, carInfo.Make, carInfo.Model, carInfo.Color, carInfo.Entry_time, carInfo.Repair_status)
 	if err != nil {
 		return &model.CarGarage{}, errors.DB{Err: err}
@@ -125,10 +126,35 @@ func (c *carInfo) Create(ctx *gofr.Context, carInfo *model.CarGarage) (*model.Ca
 		return &model.CarGarage{}, errors.DB{Err: err}
 	}
 	return &response, nil
+
 }
 
 func (c *carInfo) Update(ctx *gofr.Context, carInfo *model.CarGarage) (*model.CarGarage, error) {
-	_, err := ctx.DB().ExecContext(ctx, "UPDATE carGarage SET license_plate=?, make=?, model=?, color=?, entry_time=?, repair_status=? WHERE id=?",
+	var response model.CarGarage
+	err := ctx.DB().QueryRowContext(ctx, "SELECT * FROM carGarage WHERE license_plate=?", carInfo.License_plate).Scan(&response.ID, &response.License_plate, &response.Make, &response.Model, &response.Color, &response.Entry_time, &response.Repair_status)
+	if err != nil {
+		return &model.CarGarage{}, errors.DB{Err: err}
+	}
+	// if carInfo.License_plate == "" {
+	// 	carInfo.License_plate = response.License_plate
+	// }
+	if carInfo.Make == "" {
+		carInfo.Make = response.Make
+	}
+	if carInfo.Model == "" {
+		carInfo.Model = response.Model
+	}
+	if carInfo.Color == "" {
+		carInfo.Color = response.Color
+	}
+	if carInfo.Entry_time == "" {
+		carInfo.Entry_time = response.Entry_time
+	}
+	if carInfo.Repair_status == "" {
+		carInfo.Repair_status = response.Repair_status
+	}
+
+	_, err = ctx.DB().ExecContext(ctx, "UPDATE carGarage SET license_plate=?, make=?, model=?, color=?, entry_time=?, repair_status=? WHERE id=?",
 		carInfo.License_plate, carInfo.Make, carInfo.Model, carInfo.Color, carInfo.Entry_time, carInfo.Repair_status, carInfo.ID)
 
 	if err != nil {
@@ -138,8 +164,8 @@ func (c *carInfo) Update(ctx *gofr.Context, carInfo *model.CarGarage) (*model.Ca
 	return carInfo, nil
 }
 
-func (c *carInfo) Delete(ctx *gofr.Context, id int) error {
-	_, err := ctx.DB().ExecContext(ctx, "DELETE FROM carGarage WHERE id=?", id)
+func (c *carInfo) Delete(ctx *gofr.Context, plateNumber string) error {
+	_, err := ctx.DB().ExecContext(ctx, "DELETE FROM carGarage WHERE license_plate=?", plateNumber)
 
 	if err != nil {
 		return errors.DB{Err: err}

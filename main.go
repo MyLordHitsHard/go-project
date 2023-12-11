@@ -18,8 +18,8 @@ func main() {
 	app.GET("/car-garage/{license_plate}", h.GetByPlateNumber)
 	//app.GET("/car-garage/{id}", h.GetByID)
 	app.POST("/car-garage", h.Create)
-	app.PUT("/car-garage/{id}", h.Update)
-	app.DELETE("/car-garage/{id}", h.Delete)
+	app.PUT("/car-garage/{license_plate}", h.Update)
+	app.DELETE("/car-garage/{license_plate}", h.Delete)
 
 	app.Start()
 }
