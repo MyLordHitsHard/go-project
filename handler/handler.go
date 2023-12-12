@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/json"
 	"fmt"
 	"go-project/datastore"
 	"go-project/model"
@@ -25,6 +26,16 @@ type EntityAlreadyExists struct {
 
 func (e EntityAlreadyExists) Error() string {
 	return fmt.Sprintf("%s with ID %s already exists", e.Entity, e.ID)
+}
+
+func isValidJSON(car model.CarGarage) error {
+	byteCar, err := json.Marshal(car)
+	valid := json.Valid(byteCar)
+
+	if !valid || err != nil {
+		return &errors.Response{Reason: "Invalid JSON"}
+	}
+	return nil
 }
 
 func (h handler) GetAll(ctx *gofr.Context) (interface{}, error) {
@@ -88,6 +99,10 @@ func (h handler) Create(ctx *gofr.Context) (interface{}, error) {
 	if err := ctx.Bind(&carInfo); err != nil {
 		ctx.Logger.Errorf("error in binding: %v", err)
 		return nil, errors.InvalidParam{Param: []string{"body"}}
+	}
+
+	if err := isValidJSON(carInfo); err != nil {
+		return nil, err
 	}
 
 	response, err := h.store.GetByPlateNumber(ctx, carInfo.License_plate)

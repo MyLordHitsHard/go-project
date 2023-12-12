@@ -11,7 +11,7 @@ import (
 
 func TestIntegration(t *testing.T) {
 	go main()
-	time.Sleep(5 * time.Second)
+	time.Sleep(5 * time.Second) // giving time to connect to DB
 
 	tests := []struct {
 		desc       string
@@ -20,8 +20,6 @@ func TestIntegration(t *testing.T) {
 		statusCode int
 		body       []byte
 	}{
-		// {"register success", http.MethodPost, "signup", http.StatusCreated, []byte(`{"username": "test2","password": "1234567890"}`)},
-		// {"login success", http.MethodPost, "login", http.StatusCreated, []byte(`{"username": "test2","password": "1234567890"}`)},
 		{"get success", http.MethodGet, "car-garage", http.StatusOK, nil},
 		{"create success", http.MethodPost, "car-garage", http.StatusCreated, []byte(`{"license_plate": "HPA123","make": "BMW","model": "X0","color": "black","entry_time": "2021-09-01 00:00:00","repair_status": "Not started" }`)},
 		{"get success", http.MethodGet, "car-garage/HPA123", http.StatusOK, nil},
