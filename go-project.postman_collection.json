@@ -1,0 +1,413 @@
+{
+	"info": {
+		"_postman_id": "4685e5bf-a654-4f24-a097-3726cf69aed9",
+		"name": "go-project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17377818"
+	},
+	"item": [
+		{
+			"name": "POST Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"license_plate\": \"ABC569\",\r\n    \"make\": \"Buggati\",\r\n    \"model\": \"Chiron\",\r\n    \"color\": \"Blue\",\r\n    \"entry_time\": \"2023-02-1 00:00:00\",\r\n    \"repair_status\": \"Not started\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/car-garage",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"car-garage"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "POST Request",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"license_plate\": \"ABC569\",\r\n    \"make\": \"Buggati\",\r\n    \"model\": \"Chiron\",\r\n    \"color\": \"Blue\",\r\n    \"entry_time\": \"2023-02-1 00:00:00\",\r\n    \"repair_status\": \"Not started\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/car-garage",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"car-garage"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Authorization, Content-Type, x-requested-with, origin, true-client-ip, X-Correlation-ID"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "PUT, POST, GET, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "X-Correlation-Id",
+							"value": "364444c199e611ee9f94089798b50c72"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 13 Dec 2023 18:34:12 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "164"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"ID\": 29,\n        \"License_plate\": \"ABC569\",\n        \"Make\": \"Buggati\",\n        \"Model\": \"Chiron\",\n        \"Color\": \"Blue\",\n        \"Entry_time\": \"2023-02-01T00:00:00+05:30\",\n        \"Repair_status\": \"Not started\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "GET all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/car-garage",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"car-garage"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GET all",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/car-garage",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"car-garage"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Authorization, Content-Type, x-requested-with, origin, true-client-ip, X-Correlation-ID"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "PUT, POST, GET, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "X-Correlation-Id",
+							"value": "cad2dc8099e511ee9f94089798b50c72"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 13 Dec 2023 18:31:12 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "322"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": [\n        {\n            \"ID\": 13,\n            \"License_plate\": \"ABC123\",\n            \"Make\": \"Hyundai\",\n            \"Model\": \"Santro\",\n            \"Color\": \"Black\",\n            \"Entry_time\": \"2023-02-01T00:00:00+05:30\",\n            \"Repair_status\": \"Not started\"\n        },\n        {\n            \"ID\": 24,\n            \"License_plate\": \"ABC567\",\n            \"Make\": \"Buggati\",\n            \"Model\": \"Chiron\",\n            \"Color\": \"Blue\",\n            \"Entry_time\": \"2023-02-01T00:00:00+05:30\",\n            \"Repair_status\": \"Not started\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "GET by plate number",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/car-garage/ABC567",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"car-garage",
+						"ABC567"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GET by plate number",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/car-garage/ABC567",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"car-garage",
+								"ABC567"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Authorization, Content-Type, x-requested-with, origin, true-client-ip, X-Correlation-ID"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "PUT, POST, GET, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "X-Correlation-Id",
+							"value": "cf72cd2c99e511ee9f94089798b50c72"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 13 Dec 2023 18:31:20 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "164"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"ID\": 24,\n        \"License_plate\": \"ABC567\",\n        \"Make\": \"Buggati\",\n        \"Model\": \"Chiron\",\n        \"Color\": \"Blue\",\n        \"Entry_time\": \"2023-02-01T00:00:00+05:30\",\n        \"Repair_status\": \"Not started\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "PUT modify",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n    \"Color\": \"White\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/car-garage/ABC567",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"car-garage",
+						"ABC567"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "PUT modify",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"Color\": \"White\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:9000/car-garage/ABC567",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"car-garage",
+								"ABC567"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Authorization, Content-Type, x-requested-with, origin, true-client-ip, X-Correlation-ID"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "PUT, POST, GET, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "X-Correlation-Id",
+							"value": "2f73476799e611ee9f94089798b50c72"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 13 Dec 2023 18:34:01 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "164"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"ID\": 0,\n        \"License_plate\": \"ABC567\",\n        \"Make\": \"Buggati\",\n        \"Model\": \"Chiron\",\n        \"Color\": \"White\",\n        \"Entry_time\": \"2023-02-01T00:00:00+05:30\",\n        \"Repair_status\": \"Not started\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "DELETE",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/car-garage/ABC569",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"car-garage",
+						"ABC569"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "DELETE",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9000/car-garage/ABC569",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"car-garage",
+								"ABC569"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Authorization, Content-Type, x-requested-with, origin, true-client-ip, X-Correlation-ID"
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "PUT, POST, GET, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "X-Correlation-Id",
+							"value": "43fe2f2699e611ee9f94089798b50c72"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 13 Dec 2023 18:34:35 GMT"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		}
+	]
+}

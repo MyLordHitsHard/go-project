@@ -1,0 +1,120 @@
+openapi: 3.0.0
+info:
+  title: Gofr Car Garage API
+  version: '1.0'
+  description: 'This is a simple Go project that uses Gofr framework and provides a RESTful API for managing a car garage.'
+paths:
+  /car-garage:
+    get:
+      summary: Get all cars
+      responses:
+        '200':
+          description: A list of cars
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CarGarage'
+          examples:
+            application/json: 
+              - id: 1
+                license_plate: "ABC123"
+                make: "BMW"
+                model: "X5"
+                color: "Black"
+                entry_time: "2021-09-01 00:00:00"
+                repair_status: "Not started"
+    post:
+      summary: Create a new car
+      parameters:
+        - in: body
+          name: car
+          schema:
+            $ref: '#/definitions/CarGarage'
+      responses:
+        '200':
+          description: The created car
+          schema:
+            $ref: '#/definitions/CarGarage'
+        '400':
+          description: Invalid parameters
+          schema:
+            $ref: '#/definitions/Error'
+  /car-garage/{license_plate}:
+    get:
+      summary: Get a car by license plate
+      parameters:
+        - in: path
+          name: license_plate
+          type: string
+          required: true
+          example: "ABC123"
+      responses:
+        '200':
+          description: The car with the given license plate
+          schema:
+            $ref: '#/definitions/CarGarage'
+        '404':
+          description: Car not found
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      summary: Update a car by license plate
+      parameters:
+        - in: path
+          name: license_plate
+          type: string
+          required: true
+        - in: body
+          name: car
+          schema:
+            $ref: '#/definitions/CarGarage'
+      responses:
+        '200':
+          description: The updated car
+          schema:
+            $ref: '#/definitions/CarGarage'
+        '400':
+          description: Invalid parameters
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      summary: Delete a car by license plate
+      parameters:
+        - in: path
+          name: license_plate
+          type: string
+          required: true
+      responses:
+        '200':
+          description: A message indicating the car was deleted
+          schema:
+            type: string
+        '404':
+          description: Car not found
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  CarGarage:
+    type: object
+    properties:
+      ID:
+        type: integer
+      License_plate:
+        type: string
+      Make:
+        type: string
+      Model:
+        type: string
+      Color:
+        type: string
+      Entry_time:
+        type: string
+      Repair_status:
+        type: string
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
