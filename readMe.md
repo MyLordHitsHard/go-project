@@ -1,6 +1,7 @@
 # Gofr Project
 
 This is a simple Go project that uses Gofr framework and provides a RESTful API for managing a car garage.
+##### Kindly check the commits to know the status of the project
 
 ## Getting Started
 
@@ -41,6 +42,37 @@ The application will start and listen on port 9000.
 - `POST/car-garage`: Create a new car in the garage.
 - `PUT/car-garage/{license-plate}`: Update the details of a car from the garage
 - `DELETE/car-garage/{license_plate}`: Delete a car from the garage.
+
+
+## API Endpoints Screenshots
+
+Here are the screenshots of the API endpoints from Postman:
+
+### GET `/car-garage`
+
+![GET /car-garage](images/GetAll.png)
+
+### GET `/car-garage/{license-plate}`
+
+![GET /car-garage/{license-plate}](images/GetByPlate.png)
+
+### POST /car-garage
+
+![POST /car-garage](images/Post.png)
+
+### PUT `/car-garage/{license-plate}`
+
+![PUT /car-garage/{license-plate}](images/Put.png)
+
+### DELETE `/car-garage/{license_plate}`
+
+![DELETE /car-garage/{license_plate}](images/Delete.png)
+
+## UML Diagram
+
+Here is the UML sequence diagram for this project:
+
+![UML Diagram](images/Diagram.png)
 
 ## Built With
 
